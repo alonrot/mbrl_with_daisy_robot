@@ -3,7 +3,7 @@ Introduction
 This branch of `mbrl` is dedicated to conducting experiments using [PETS](https://arxiv.org/pdf/1805.12114.pdf) on the real robot [Daisy](https://fb.quip.com/acOaAgiGoMWR). It supports additional changes with respect to the main branch, which include
  + Alternative trajectory sampling methods: `PDDM`([paper](https://arxiv.org/pdf/1909.11652.pdf)) and a new idea `Directed Brownian Motion`
 
-![daisy](https://github.com/fair-robotics/mbrl/blob/hydra_with_daisy/pics/daisy_pic.png)
+![daisy](pics/daisy_pic.png)
 
 This project is work in progress.
 
@@ -31,7 +31,7 @@ Depending on the "amount of data" we send to Daisy through the network, we may c
 For doing learning experiments, the **Network interface** is more appropriate as we have decoupled Daisy's program from PETS. In this way, if there is a problem with the robot, we can kill the Habi API without having to restart the learning experiments from scratch (i.e., without having to kill PETS). We'd discourage anyone from using the **Direct interface** for doing learning experiments, as both PETS and the Hebi API are running in the same main program. Thus, having a problem in the robot would mean that both, PETS and the interface need to be killed at once. However, the **Direct interface** it's also supported and working, and can be used for testing/debugging purposes, as it doesn't rely on socket communication and thus there's no data being sent between the Hebi API and PETS.
 
 In the following, we'll describe how to use the **Network interface** for the case 1.1. The following picture describes in a high level the communication between the machine where PETS is running and Daisy's on-board computer during a single time step. 
-![env_network](https://github.com/fair-robotics/mbrl/blob/hydra_with_daisy/pics/env_network.png)
+![env_network](pics/env_network.png)
 Importantly, PETS runs multiple episodes that last for N time steps each. At each time step, PETS needs to send an action to the robot (a_t), and retrieve the next state (x_{t+1}). As shown in the diagram, this is done using publishers/listeners running at different frequencies. Such publishers/listener send/receive data using UDP socket communication. We describe next the main three communication channels that take care of sending the needed data.
 
  + The middle channel sends the desired action to Daisy. At the moment, actions a_t are sent at 10 Hz. Since we are controlling the robot using a position controller, we choose such action to be directly the desired joint positions (q_{des}). On Daisy's on-board computer, a listener is running at 100 Hz. The purpose of such listener is two fold: First, capturing actions sent from PETS, and second, updating a "position holder". The position holder is simply a while-loop that reads the desired actions as they arrive and passes them to the Hebi API.
