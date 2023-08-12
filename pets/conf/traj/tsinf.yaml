@@ -1,0 +1,8 @@
+policy:
+  params:
+    traj:
+      clazz: mbrl.trajectories.tsprop.TSProp
+      params:
+        return_trajectories: false
+        particles: 20
+        permute_assignment: false

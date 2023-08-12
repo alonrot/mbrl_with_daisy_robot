@@ -1,0 +1,5 @@
+dynamics_model:
+  params:
+    model:
+      clazz: pets.models.CartpoleDNN
+

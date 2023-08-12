@@ -1,0 +1,21 @@
+.dumbo.json
+TODO
+MUJOCO_LOG.TXT
+logs
+*.pyc
+.idea/
+.pytest_cache/
+.envrc
+*.nvvp
+.lastrun_config.yaml
+outputs/
+
+# alonrot added:
+!outputs/2019-11-12/13-19-49
+.DS_Store
+channeldata.json
+index.html
+mbrl/trajectories/tests/__init__.py
+noarch/
+pets/bash_completion/__init__.py
+pets/benchmark/__init__.py

@@ -1,0 +1,224 @@
+# ============================
+# Environment specific options
+# ============================
+env:
+
+  # Select which interface to use
+  # -----------------------------
+  # which_interface: "direct"
+  which_interface: "network"
+  interface:
+
+    # Network interface using sockets
+    # -------------------------------
+    network:
+      # HOST: "10.10.1.184" # alonrot mac laptop
+      # HOST: "10.10.1.172" # alonrot robodev (WiFi)
+      HOST: "10.10.1.180" # alonrot robodev (cable)
+      UDP_IP: "10.10.1.2"
+
+      # Reset parameters
+      # ----------------
+      freq_action_reset: 100 # Hz | Frequency at which actions are sent in the reset() function
+      time2pos_reset: 4.0 # Total time allocated for resetting the robot to its initial position. 
+                          # If the movement is composed of two or more sub-movements, each movement will last for time2pos_reset [sec]
+      time2sleep_after_reset: -1  # Sleep the program right after the reset, in case the robot needs to be manually 
+                                  # placed in some initial position. Set:
+                                  # -1 for asking user for input (blocks until user presses a key)
+                                  # >0 for waiting a time larger than 0 [sec]
+      # At the moment, the listed reset types are supported
+      reset_type: "stand_up"                    # It brings the robot up. Recommended for learning experiments. It works almost always, regardless of how complicated the robot's position is
+      # reset_type: "stand_up_directly"         # (dangerous for learning) Same as above but without a smooth transition.
+      # reset_type: "legs_extended"             # After a smooth transition, the legs are fully extended. It corresponds to ALL the joints being at the ZERO position
+      # reset_type: "legs_extended_directly"    # (dangerous for learning) Same as above, but without the transition.
+      
+      # Stop the episode if any if these conditions is met
+      # --------------------------------------------------
+      check_still_standing:       # Check if the robot is still standing up or it's touching the ground. Normally
+        use: true                 # if the robot is below base_position_Z_thres is already very close to the ground.
+        base_position_Z_thres: -0.13
+      check_still_not_flipped:    # Check if the robot is too tilted
+        use: True
+        flip_limit: 0.35          # abs(sin(+-phi_max)), phi_max ~= 20 [deg]
+
+      # Communication ports
+      # -------------------
+      # These ports must be the same as those used in control-daisy. If they are not the same, no error will be thrown; 
+      # simply Daisy won't be exchanging data with control-daisy, and thus, it won't move.
+      PORT_DES_POSITIONS: 50012
+      PORT_CURR_POSITIONS: 50013
+      PORT_ACK: 50011
+      PORT_FLAG_RESET: 50010
+      PORT_STATUS_ROBOT: 50009
+      buff: 512
+
+      device: ${device}
+
+      # Subtract an offset froma all required states before starting the episode
+      zero_offset_observations: True
+
+      # Wait for the vision tracking data to be stable before starting the episode
+      # --------------------------------------------------------------------------
+      # Since the vision data comes a sensor fusion between IMUs and augmented reality, there can be a transient at the beginning 
+      # where the IMUs drift a bit over time.
+      wait4stabilization: True # Whether to activate this feature or not
+      freq_acq_stabilization: 10 # [Hz] | Frequency at which we request data from the vision system to compute the stabilization
+      time_stabilization: 1. # [sec] | Time window considered to measure estabilization
+      fac_timeout: 3 # Factor. We'll wait a maximum of time_stabilization*fac_timeout [sec]
+      tol_stabilization: 0.001 # The std of every measurements need to be below this number to be considered stable
+
+    # Direct communication with Daisy
+    # -------------------------------
+    # If selected the communication with Daisy will run in the same main program as PETS.
+    direct:
+      freq_fbk: 1000 # Hz | Frequency at which we want the Hebi callbacks to run. Typically such callbacks capture data from the sensors of all the modules
+      use_fake_robot_debug: True    # Set to True to debug the code without sending/receiving any commands to the motors. 
+                                    # Observations will get populated with randomly sampled values
+      use_fake_vision_debug: True   # Set to True to debug the code without receiving any data from the smartphone
+                                    # Observations will get populated with randomly sampled values
+      # Daisy receives constantly desired positions, which are sent inside a while-loop running at frequency freq
+      # Such desired positions are read from a shared memory class member. Such class member can externally be updated by other functions,
+      # for example a socket-process that reads data from PETS
+      hold_position_process:        
+        freq: 200 # Hz              # Frequency at which Daisy receives the last desired position available in the shared memory
+        name_proc: "daisy_position_holder_listener" # Name of the multiprocess
+      # dim_state: ${env.state_size}
+      dim_state: 42
+      time2pos_reset: ${env.interface.network.time2pos_reset}
+      freq_action_reset: ${env.interface.network.freq_action_reset}
+      junk_matrix_vision_length: 50 # Observations from the vision callback are stored in a matrix of fixed size (this number), indexed with a rotatory index
+
+  name: DaisyRealRobotEnv
+  state_transformer: mbrl.environments.daisy_real.DaisyRealRobotEnv.identity
+  state_size: 45 # This has to correspond with the 'transformed state' described in daisy_hardware.daisy_parameters.DaisyConfPETS.init_transformed_state()
+  action_size: 18 # This corresponds with the number of joints, as we choose the actions to be 'desired positions'
+  freq_action: 10.0 # [Hz] # Frequency at which actions are sent from PETS
+  seed: 1
+  
+  # For the init() function inside pets/main.py we need to specify which policy we want to use to collect data for pre-training the dynamics model
+  data_collection_policy: "cpg"
+  # data_collection_policy: "sinewaves"
+  # data_collection_policy: "random"
+  cpg_policy:
+    # offset_shoulder: 0.1 # original: 0.25
+    # offset_elbow: 1.5 # original: 1.35
+    offset_shoulder: 0.0  # same values used to generate the CPG | original: 0.25
+    offset_elbow: 1.57    # same values used to generate the CPG | original: 1.35
+    resample_tripod_every: None # Only applicable if using data_collection_policy: "cpg". The generated tripod depends on some parameters that can be resampled
+  return_raw_state: True
+
+# =========================
+# Episodes length and steps
+# =========================
+num_trials: 20
+trial_timesteps: 100 # equivalent to 'task_horizon' in utils.sample_episode() | It is the number of steps of the episode
+
+
+
+# ========================
+# PETS initialization type
+# ========================
+initialization_type: "load_model"       # Load pre-trained model instead of colelcting data and training a model from scratch
+# initialization_type: "collect_data"   # Collect data and train a model from scratch
+motor_babbling: # Used only in init()
+  num_trials: 2     # Number of episodes during data collection
+  task_horizon: 400 # Number of steps per episode
+  base_name2save: initial_data_${env.data_collection_policy}_policy
+  checkpoint: # Use this to continue a pre-started data collection routine that was prematurely stopped
+    use: False    
+    trial_init: 3 # index -> Make it other than zero when restarting experiments due to premature detention of PETS 
+  resample_sinewaves_every: 4 # Only applicable if using # data_collection_policy: "sinewaves"
+
+
+# ===========
+# PETS policy
+# ===========
+policy:
+  clazz: pets.PETSPolicy              # When changing this, also the cem should change to cem_parametrized in config.yaml
+  # clazz: pets.PETSPolicyParametrized  # When changing this, also the cem should change to cem_parametrized in config.yaml
+  params:
+    planning_horizon: 5 # Planning horizon of the MPC optimizer. The longest, the longer will each step take to finish.
+
+
+# ======================
+# Model training options
+# ======================
+training:
+  do_train_over_episodes: True # If set to False, training will be skipped for all the episodes
+  batch_size: 60 # Train the NN in batches of this size
+  full_epochs: 2000 # Number of epochs
+  incremental_epochs: 120 # Number epochs to train the model with while PETS is running (i.e., this is not for pre-training the model)
+  incremental: true # Do never set this to false. If false, the model will be reset before each episode (i.e., it won't continuously learn) -> Disabled for now
+  shuffle_data: True # By default shoudl be True. If False, the data won't be shuffled before entering the NN
+  optimizer:
+    params:
+      lr: 1e-5 # Learning rate
+  testing: # This is used for online training or init() data training, inside split_and_append_with_shuffling() and split_and_append()
+    # ratio between test and train splits, 0.7 means 70% in train and 30% in test.
+    # to use all the data for training and not perform testing set to 1 -> alonrot: This fails.
+    # To solve it, we reduce the test set of f a single element
+    split: 0.95
+  perform_trainning_every_xxx_episodes:
+    use: False
+    xxx: 3
+  shorten_initial_dataset: # If the model was pre-trained with a large number of data points, use a portion of such dataset for retraining
+    use: True
+    reduce_to: 0.5
+  store_random_state: # Save random state into a file
+    use: True
+    base_name2save: "random_state"
+  ratio_desired: 0.05 # Desired ratio between new fresh data and existing data before re-training the model. See pets.main.get_customized_dataset_shuffled()
+  perform_trainning_every_xxx_datapoints: # Do trainign only when at least xxx datapoints have been collected
+    use: True
+    xxx: 30
+  split_first_shuffle_after: # Used for plotting and offline training
+    use: True
+    len_training_dataset: ${training.testing.split}
+    # len_training_dataset: 0.9
+    # len_training_dataset: 7200
+
+
+# ====================================
+# Walking experiments specific options
+# ====================================
+walking_experiments:
+  indices2monitor: "[18,20,22,24]" # Monitor the evolution of the reward and these states during experiments
+  dynamics_model:
+    name_base: "dynamics_model"
+    name_extension: "model"
+    save: True
+  episodes:
+    name_base: "episode"
+    name_extension: "epi"
+    save: True
+    figure_evolution:
+      plot: True
+      save: True
+      block_at_end: False
+  rewards:
+    name_base: "reward"
+    name_extension: "rew"
+    save: True
+  folder2save: "walking_experiments"
+
+# Reward class
+# ============
+reward:
+  clazz: mbrl.rewards.RewardWalkForward
+  params:
+    dim_state: 45
+
+# Other options
+# =============
+use_profiler: False # Deactivate all user prompts when running a profiler
+data_normalization: # Normalize the data before using it to train the dynamics model (doesn't work very well)
+  use: False
+device: cuda
+# device: cpu
+
+# debug_cpu_cuda: # For test_cuda_cpu.py
+#   # path_base: /private/home/alonrot/tmp/mbrlDaisy/mbrl # devfair0207
+#   # path_base: "/home/alonrot_local/workspace_alonrot/mbrl/" # robodev
+#   path_base: "/Users/alonrot/PycharmProjects/mbrlDaisy/mbrl/" # laptop
+#   name_base: "debug_cpu_cuda_tensor"
+#   what2do: "save"

@@ -1,0 +1,5 @@
+# Change things during learning experiments
+# This file is loaded inside pets/main.py after each episode.
+# When 'True', the user wwill get a prompt to change the contents of cfg
+# When false, the program will continue normally
+activate: False

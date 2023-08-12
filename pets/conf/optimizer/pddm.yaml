@@ -1,0 +1,10 @@
+policy:
+    params:
+      optimizer:
+        clazz: mbrl.optimizers.PDDMOptimizer
+        params:
+          num_trajectories: ???
+          use_final_nominal_mean: ???
+          use_correlation_matrix: ???
+          max_iters: 1 # Maximum nuumber of iterations allowed to the optimizer
+          num_elites: 5 

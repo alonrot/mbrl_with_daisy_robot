@@ -1,0 +1,26 @@
+env:
+  name: Daisy-v0
+  reward_func: mbrl.environments.daisy.DaisyEnv.get_reward_5
+  state_transformer: mbrl.environments.daisy.DaisyEnv.identity
+  state_size: 24
+
+motor_babbling:
+  num_trials: 1
+  task_horizon: 100
+
+num_trials: 2
+trial_timesteps: 500
+
+policy:
+  clazz: pets.PETSPolicy
+  params:
+    planning_horizon: 4
+
+training:
+  batch_size: 64
+  incremental: true
+  full_epochs: 20
+  incremental_epochs: 10
+
+
+

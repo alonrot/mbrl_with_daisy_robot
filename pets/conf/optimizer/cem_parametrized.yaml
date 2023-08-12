@@ -1,0 +1,14 @@
+policy:
+    params:
+      optimizer:
+        clazz: mbrl.optimizers.CEMOptimizerPETS_parametrized # alonrot added
+        params:
+          num_trajectories: ???
+          max_iters: ???
+          num_elites: ???
+          mean_alpha: 0.1
+          var_alpha: 0.1
+          epsilon: 0.001
+          # alonrot added:
+          dt: 0.1 # [sec]
+          action_dim: 18

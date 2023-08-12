@@ -1,0 +1,101 @@
+defaults:
+# Main environment for loading sub-configurations
+  - env: ???
+    
+# Main dynamics model type
+  - dynamics_model: pe
+    
+# Main optimizer type
+  # - optimizer: cem                        # When changing this, also policy.clazz should change in daisy.yaml to clazz: pets.PETSPolicy
+  - optimizer: pddm                       # When changing this, also policy.clazz should change in daisy.yaml to clazz: pets.PETSPolicy
+  # - optimizer: directed_brownian_motion   # When changing this, also policy.clazz should change in daisy.yaml to clazz: pets.PETSPolicy
+  # - optimizer: cem_parametrized           # When changing this, also policy.clazz should change in daisy.yaml to clazz: pets.PETSPolicyParametrized
+    
+# Environment specific dynamics model specification
+  - env/: ${defaults.0.env}/dynamics_model/${defaults.1.dynamics_model}
+
+# Environment specific optimizer specification
+  - env/: ${defaults.0.env}/optimizer/${defaults.2.optimizer}
+
+# Planner specification
+  # - traj: simple
+  - traj: ts1
+    
+# launcher
+  - hydra/launcher: mbrl_fairtask
+    
+# Labeled data from experiments
+  - ./: ../../plotting_and_analysis/conf_data2load
+
+# testing schema
+  # - schema: base  
+  - schema: debug
+
+hydra:
+  functions:
+    # override dirname configuration
+    override_dirname:
+      key_val_separator: "="
+      override_separator: "_"
+      exclude_keys:
+        -random_seed
+  run:
+    dir: ./outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    exclude_keys:
+      -random_seed
+    dir: /checkpoint/${env:USER}/outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${random_seed} #hydra.job.id # ${hydra.job.num}_${hydra.job.override_dirname}/
+
+env:
+  name: ???
+  state_transformer: mbrl.environments.hooks.default_state_transformer
+  target_transformer: mbrl.environments.hooks.DefaultTargetTransformer
+
+  render: false
+  instances: 1
+
+# load a checkpoint file, this is either false to indicate to not load, or
+# a file name of the checkpoint file to load.
+checkpoint: false
+
+device: cuda
+random_seed: 1
+log_dir: logs
+log_config: pets/conf/logging.yaml
+checkpoint_file: trial_{}.dat
+
+# Definition for each dynamics model type:
+dynamics_model:
+  clazz: ???
+
+training:
+  # Incrementally update the model between trials.
+  # if false, model will be trained from scratch for training.full_epochs at every trial
+  # if true, model will trained for training.full_epochs in the first trial (from motor babbling),
+  # and for subsequent trials it will be updated for training.incremental_epochs
+  incremental: false
+  full_epochs: 100
+  incremental_epochs: 5
+  epochs:
+  batch_size: 1
+  optimizer:
+    clazz: torch.optim.Adam
+    params:
+      lr: 1e-6
+  testing:
+    # ratio between test and train splits, 0.7 means 70% in train and 30% in test.
+    # to use all the data for training and not perform testing set to 1
+    split: 0.9
+
+
+motor_babbling:
+  num_trials: 1
+  task_horizon: ${trial_timesteps}
+
+policy:
+  clazz: pets.PETSPolicy
+  params:
+    planning_horizon: 25
+    traj: ???
+    optimizer: ???

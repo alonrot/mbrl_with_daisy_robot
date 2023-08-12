@@ -1,0 +1,6 @@
+dynamics_model:
+  params:
+    model:
+      params:
+        model:
+          clazz: pets.models.HalfCheetahDNN

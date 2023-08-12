@@ -1,0 +1,307 @@
+# ------------------------------------------------------------------
+# ------------------------------------------------------------------
+#                           <<<< DATA >>>>
+# ------------------------------------------------------------------
+# ------------------------------------------------------------------
+
+data2load:
+
+  use: "cpg"
+  # use: "sinewaves_no_floor"
+  # use: "random_no_vel"
+
+  cpg:
+
+
+    # path: "./outputs/2019-11-27/20-47-19/" # 10 episodes, 5 data not ok; 6 again better; 9 bad (the tablet switched off) | v = 6 in daisy_toolkit.daisy_hardware.cpg_bo.py | STEP_SIZE=0.01 # original in daisy_toolkit.daisy_hardware.cpg.py
+    # # python run_NNtraining.py env.state_size=38 device=cuda training.batch_size=16,32,64 training.full_epochs=200,600,1000,2000 training.shuffle_data=True,False training.optimizer.params.lr=1e-5,1e-6 -m
+    # # Training on [2019-11-29 00:45:26,265]
+    # folder2model: "/cluster_cuda/"
+    # model_name: "fullmodel_trained_batch64_epochs2000_shuffleFalse_lr1.0E-05_device_cuda_Nstates38"
+    # traj_init: 0 # index
+    # traj_end: 10 # limit (not an index)
+    # base_name2save: "babbling"
+    # remove_unwanted_states: True
+    # normalize_data: False
+    # exclude_trajs: # Exclude trajectories within [traj_init, traj_end-1] | These are 0-based indices
+    #   - 4
+    #   - 5
+    #   - 8
+    #   - 9
+
+    # # Longer epochs:
+    # # python run_NNtraining.py env.state_size=38 device=cuda training.batch_size=16,32,64 training.full_epochs=10000,20000 training.shuffle_data=True,False training.optimizer.params.lr=1e-5,1e-6 -m
+    # # Training [2019-11-29 10:58:13,318]
+
+    # ----------------------------------------
+
+    # path: "./outputs/2019-11-27/21-07-51/" # 10 episodes, 9 bad (the tablet switched off)
+    # # python run_NNtraining.py env.state_size=38 device=cuda training.batch_size=16,32,64 training.full_epochs=200,600,1000,2000 training.shuffle_data=True,False training.optimizer.params.lr=1e-5,1e-6 -m
+    # # Training [2019-11-29 01:04:06,121]
+    # folder2model: "/cluster_cuda/"
+    # model_name: "fullmodel_trained_batch64_epochs2000_shuffleFalse_lr1.0E-05_device_cuda_Nstates38"
+    # traj_init: 0 # index
+    # traj_end: 10 # limit (not an index)
+    # remove_unwanted_states: True
+    # normalize_data: False
+    # exclude_trajs: # Exclude trajectories within [traj_init, traj_end-1] | These are 0-based indices
+    #   - 2
+    #   - 3
+    #   - 5
+    #   - 9
+
+    # # Longer epochs:
+    # # python run_NNtraining.py env.state_size=38 device=cuda training.batch_size=16,32,64 training.full_epochs=10000,20000 training.shuffle_data=True,False training.optimizer.params.lr=1e-5,1e-6 -m
+    # # Training [2019-11-29 10:58:51,131] ...
+
+    # ----------------------------------------
+
+
+    # path: "./outputs/2019-12-03/17-36-10/" # All good
+    # # python run_NNtraining.py device=cuda training.batch_size=64,32,16 training.full_epochs=200,600,1000 training.shuffle_data=False,True training.optimizer.params.lr=1e-5,1e-6 -m
+    # # Training [2019-12-03 20:10:43,193]
+    # folder2model: "/cluster_cuda/"
+    # model_name: "fullmodel_trained_batch32_epochs1000_shuffleFalse_lr1.0E-05_device_cuda_Nstates45"
+    # traj_init: 0 # index
+    # traj_end: 10 # limit (not an index)
+    # base_name2save: "initial_data_cpg_policy"
+    # exclude_trajs: 
+    # normalize_data: False
+    # remove_unwanted_states: False
+    # # <path>/footage/one_of_the_episodes.mp4 -> Chunk of one of the episodes
+    # # <path>/footage/PETS_acting_on_this_data.mp4 -> PETS
+
+    # # Longer epochs: (ongoing)
+    # python run_NNtraining.py device=cuda training.batch_size=16 training.full_epochs=5000 training.shuffle_data=False,True training.optimizer.params.lr=1e-5,1e-6 -m
+    # Training [2019-12-04 08:21:20,605] ...
+    # model_name: "fullmodel_trained_batch16_epochs5000_shuffleFalse_lr1.0E-05_device_cuda_Nstates45"
+
+    # ----------------------------------------
+
+    # # Walking experiments all with the nominal tripod of the CPG: (network problems)
+    # path: "./outputs/2019-12-04/16-36-53/" # -> Not copied to laptop
+    # traj_init: 0 # index
+    # traj_end: 12 # limit (not an index)
+    # base_name2save: "initial_data_cpg_policy"
+    # exclude_trajs: # Episodes with bad network quality: 0, 3, 7, 8 (towards the end), 10, 
+    # normalize_data: False
+    # remove_unwanted_states: False
+
+    # Ongoing data collection:
+    # Walking experiments all with the nominal tripod of the CPG (repetition of the above due to the poor network connection) -> Aborted due to poor network connection
+
+    # ----------------------------------------
+
+    # Walking experiments all with the nominal tripod of the CPG using cable connection (repetition of the above due to poor network connection; stopped after experiment with index 8, due to running out of battery)
+    # path: "./2019-12-04/18-21-27/" # Experiments 0 to 8
+    # path: "./2019-12-04/18-59-07" # Experiments 9 to 19
+
+    # Walking experiments ... (same as above)
+    # We copied the data from folder ./2019-12-04/18-21-27/ into ./2019-12-04/18-59-07
+    # Training [2019-12-04 23:59:37,229]
+    # python run_NNtraining.py device=cuda training.batch_size=64,32,16 training.full_epochs=600,1000,2000,5000 training.shuffle_data=False,True training.optimizer.params.lr=1e-5,1e-6 -m
+    path: "./outputs/2019-12-04/18-59-07/"
+    traj_init: 0 # index
+    traj_end: 20 # limit (not an index)
+    exclude_trajs: # None, all were good
+    base_name2save: "initial_data_cpg_policy"
+    normalize_data: False # new! -> This flag here is confusing. Only the one in daisy.yaml should be used
+    # normalize_data: False
+    remove_unwanted_states: False
+    
+    folder2model: "/cluster_cuda/"
+    # model_name: "fullmodel_trained_batch64_epochs5000_shuffleTrue_lr1.0E-06_device_cuda_Nstates45" # Trained With Normalized Data (easy double-check: play with normalize_data; the one that gives the best predictions is the one used during training) # GOOD model
+    # model_name: "fullmodel_trained_batch64_epochs2000_shuffleTrue_lr1.0E-06_device_cuda_Nstates45" # Trained With Normalized Data (easy double-check: play with normalize_data; the one that gives the best predictions is the one used during training)
+    # model_name: "fullmodel_trained_batch40_epochs1200_shuffleTrue_lr1.0E-06_device_cuda_Nstates45" # Trained With Non-Normalized Data
+    # model_name: fullmodel_trained_batch64_epochs2000_shuffleTrue_lr1.0E-05_device_cuda_Nstates45_normFalse_split0.9_seed1 # Separating the training from thet est data set: first splitting, and after shuffling
+    model_name: fullmodel_trained_batch64_epochs20000_shuffleTrue_lr1.0E-05_device_cuda_Nstates45_normFalse_split0.9_seed1 # Separating the training from thet est data set: first splitting, and after shuffling
+
+    # Running PETS on the trained model, for 100 episodes, using CEM:
+    # folder2model: "/walking_experiments/2019_12_11/17_21_11/"
+    # model_name: "dynamics_model_after_episode_99.model"
+
+    # # Running PETS with PDDM, the one that lead to a little walker :)
+    # folder2model: "/walking_experiments/2019_12_13/21_39_23/"
+    # model_name: "dynamics_model_after_episode_56.model"
+    # model_name: "dynamics_model_after_episode_2.model"
+
+    # # Running PETS with directed Brownian motion, on the trained model, for some episodes:
+    # folder2model: "/walking_experiments/2019_12_16/19_54_31/"
+    # model_name: "dynamics_model_after_episode_44.model"
+
+    analyze_model:
+        # ?
+        # name_folder: "/walking_experiments/2019_12_05/19_28_12/" # Model used in experiments: "fullmodel_trained_batch64_epochs2000_shuffleFalse_lr1.0E-05_device_cuda_Nstates45"
+        # name_episode: "analisysNN_entire_episode_torch_save_xxx.dat" # xxx to be replaced in the code by the corresponding index
+        
+        # Running PETS on the trained model, to see how good the trajectory planner predictions are:
+        # name_folder: "/walking_experiments/2019_12_11/14_17_57/" # Model used in experiments: "fullmodel_trained_batch64_epochs20000_shuffleTrue_lr1.0E-05_device_cuda_Nstates45_normFalse_split0.9_seed1"
+        # name_episode: "episode_episode_xxx.epi" # xxx to be replaced in the code by the corresponding index
+
+        # # Running PETS on the trained model, for 100 episodes, using CEM:
+        # name_folder: "/walking_experiments/2019_12_11/17_21_11/" # Model used in experiments: "/walking_experiments/2019_12_11/17_21_11/dynamics_model_after_episode_99.model"
+        # name_episode: "episode_episode_xxx.epi" # xxx to be replaced in the code by the corresponding index
+        
+        # # Running PETS with PDDM, the one that lead to a little walker :)
+        # name_folder: "/walking_experiments/2019_12_13/21_39_23/" # Model used in experiments: "/walking_experiments/2019_12_13/21_39_23/dynamics_model_after_episode_56.model"
+        # name_episode: "episode_xxx.epi" # xxx to be replaced in the code by the corresponding index
+
+        # Running PETS with brownian motion with correlations: (low variance, stopped...)
+        name_folder: "/walking_experiments/2019_12_17/23_21_05/" # Model used in experiments: "/walking_experiments/2019_12_13/21_39_23/dynamics_model_after_episode_56.model"
+        name_episode: "episode_xxx.epi" # xxx to be replaced in the code by the corresponding index
+
+
+        append_walking_data_for_offline_training: # Append to the dataset from path, all the data from a particular walking_experiments folder (e.g., /walking_experiments/2019_12_11/17_21_11/)
+            use: False
+            name_folder: ${data2load.cpg.analyze_model.name_folder}
+            name_episode: ${data2load.cpg.analyze_model.name_episode}
+            traj_init: 0
+            traj_end: 60
+            exclude_trajs: "[range(5,55)]"
+
+
+    # Further training - No normalization
+    # [2019-12-09 15:04:51,433]
+    # python run_NNtraining.py device=cuda training.batch_size=40 training.full_epochs=1200 training.shuffle_data=True,False training.optimizer.params.lr=1e-6 -m
+
+    # Further training - split_and_shuffle is different: training.split_first_shuffle_after.use = True | Normalization & No normalization 
+    # [2019-12-10 16:40:54,932]
+    # python run_NNtraining.py device=cuda training.batch_size=64 training.full_epochs=2 training.shuffle_data=True training.optimizer.params.lr=1e-5 random_seed=1 data2load.cpg.normalize_data=True,False -m
+    # Completed! Retreived data from the cluster into mac
+
+    # Further training:
+    # [2019-12-10 19:19:41,621]
+    # python run_NNtraining.py device=cuda training.batch_size=64 training.full_epochs=20000 training.shuffle_data=True training.optimizer.params.lr=1e-5 random_seed=1 data2load.cpg.normalize_data=True,False -m
+    # Completed! Retreived data from the cluster into mac
+
+    # Further training:
+    # [2019-12-10 20:16:41,265]
+    # python run_NNtraining.py device=cuda training.batch_size=64 training.full_epochs=50000 training.shuffle_data=True training.optimizer.params.lr=1e-5 random_seed=1 data2load.cpg.normalize_data=True,False -m
+    # On going...
+
+    # Further training: New model with the 100 epxeriments data we acquired
+    # []
+    # python run_NNtraining.py device=cuda training.batch_size=64 training.full_epochs=5000 training.shuffle_data=True training.optimizer.params.lr=1e-5 random_seed=1 data2load.cpg.normalize_data=False -m
+    # On going...
+
+
+    # ----------------------------------------
+
+    # # Debugging:
+    # path: "./outputs/2019-12-09/10-36-06/"
+    # traj_init: 0 # index
+    # traj_end: 3 # limit (not an index)
+    # exclude_trajs: # None, all were good
+    # base_name2save: "initial_data_cpg_policy"
+    # normalize_data: True # new!
+    # remove_unwanted_states: False
+    # model_name: "dynamics_model_after_episode_2.model"
+    # # folder2model: "/cluster_cuda/"
+    # folder2model: "/walking_experiments/2019_12_09/10_57_24/"
+    # analyze_model:
+    #     name_folder: "/walking_experiments/2019_12_09/10_57_24/" # Model used in experiments: "fullmodel_trained_batch64_epochs2000_shuffleFalse_lr1.0E-05_device_cuda_Nstates45"
+    #     name_episode: "analisysNN_entire_episode_torch_save_xxx.dat" # xxx to be replaced in the code by the corresponding index
+
+
+  sinewaves_no_floor:
+    # Description:
+    # ============
+    # Cluster training of data "/Users/alonrot/PycharmProjects/mbrlDaisy/mbrl/outputs/2019-11-12/13-19-49" 
+    # Description of data "/Users/alonrot/PycharmProjects/mbrlDaisy/mbrl/outputs/2019-11-12/13-19-49"
+    # Commanded sinusoidal waves. The proposed limits for the parameters were:
+    #     # Joint limits for moving the robot from leg-extended, without touching the floor:
+    #     daisy_limits_firmware_min = np.array(   [-30., -90.,   0.,
+    #                                              -30.,   0., -90.,
+    #                                              -30., -90.,   0.,
+    #                                              -30.,   0., -90.,
+    #                                              -30., -90.,   0.,
+    #                                              -30.,   0., -90.] ) * np.pi / 180.
+
+    #     daisy_limits_firmware_max = np.array(   [+30.,   0., +90. ,
+    #                                              +30., +90.,   0. ,
+    #                                              +30.,   0., +90. ,
+    #                                              +30., +90.,   0. ,
+    #                                              +30.,   0., +90. ,
+    #                                              +30., +90.,   0.] ) * np.pi / 180.
+    # the offset was in the middle of the interval, but the amplitude wasn't divided by 2. Thus, after sampling,
+    # it's possible that the amplitude for some of the joints was outside the desired limit.
+    # In addition, the freq, ampl, offset and phase were kept constant across all episodes.
+    # path: "/Users/alonrot/PycharmProjects/mbrlDaisy/mbrl/outputs/2019-11-12/13-19-49/from_cluster/" # Works!
+    # path: "/Users/alonrot/PycharmProjects/mbrlDaisy/mbrl/outputs/2019-11-12/13-19-49/from_cluster_full_model/" # Works!
+    # path: "/home/alonrot_local/workspace_alonrot/mbrl/outputs/2019-11-12/13-19-49/from_cluster_full_model/" # Works!
+    
+    # lr = 1e-5
+    # model_name: "model_trained_remove_poseTrue_shuffleFalse_lr1.00E-05_batch_size32_full_epochs2000_NNtype_pe"  # Works!
+    # model_name: "model_trained_remove_poseTrue_shuffleFalse_lr1.00E-05_batch_size32_full_epochs500_NNtype_pe"  # Works!
+    # model_name: "model_trained_remove_poseTrue_shuffleFalse_lr1.00E-05_batch_size32_full_epochs200_NNtype_pe"  # Works!
+    # model_name: "model_trained_remove_poseTrue_shuffleFalse_lr1.00E-06_batch_size16_full_epochs2000_NNtype_pe"  # Works!
+    
+    # lr = 1e-6 -> Generally worse
+    # model_name: "model_trained_remove_poseTrue_shuffleFalse_lr1.00E-06_batch_size8_full_epochs1000_NNtype_pe"
+    # model_name: "model_trained_remove_poseTrue_shuffleFalse_lr1.00E-06_batch_size16_full_epochs1000_NNtype_pe"
+    # model_name: "model_trained_remove_poseTrue_shuffleFalse_lr1.00E-06_batch_size32_full_epochs1000_NNtype_pe"
+    # model_name: "model_trained_remove_poseTrue_shuffleFalse_lr1.00E-06_batch_size64_full_epochs1000_NNtype_pe"
+
+    # Retraining with correct model: (used cuda)
+    # python test_train_NN.py env=daisy device=cuda training.traj_end=10 env.state_size=36 training.batch_size=64,32,16 training.full_epochs=200,600,1000,2000 training.shuffle_data=False,True training.optimizer.params.lr=1e-4,1e-5,1e-6 -m
+    # [2019-11-22 12:10:55,426] - Sweep output dir : /checkpoint/alonrot/outputs/2019-11-22/12-10-55
+    # path: "/home/alonrot_local/workspace_alonrot/mbrl/outputs/2019-11-12/13-19-49/from_cluster_full_model/" # Works! # Needs _pickle
+    # model_name: "model_trained_remove_poseTrue_shuffleFalse_lr1.00E-05_batch_size16_full_epochs2000_NNtype_pe_fullmodel" # Needs _pickle
+    # model_name: "model_trained_remove_poseTrue_shuffleFalse_lr1.00E-05_batch_size16_full_epochs2000_NNtype_pe_fullmodel" # Needs _pickle
+
+    # Retraining with correct model: (used CPU)
+    # [2019-11-22 17:40:57,973]
+    # python test_train_NN.py env=daisy device=cpu training.traj_end=10 env.state_size=36 training.name_base="model_trained_on_cpu" training.batch_size=64,32,16 training.full_epochs=200,600,1000,2000 training.shuffle_data=False,True training.optimizer.params.lr=1e-4,1e-5,1e-6 -m
+    # path: "/home/alonrot_local/workspace_alonrot/mbrl/outputs/2019-11-12/13-19-49/from_cluster_full_model_trained_on_cpu/" # Works! # robodev
+    # path: "/Users/alonrot/PycharmProjects/mbrlDaisy/mbrl/outputs/2019-11-12/13-19-49/from_cluster_full_model_trained_on_cpu/" # Works! # alonrot-mbp
+    # model_name: "model_trained_on_cpu_remove_poseTrue_shuffleFalse_lr1.00E-05_batch_size16_full_epochs2000_NNtype_pe_fullmodel"
+
+    # Retraining with correct model: (used CPU, longer epochs)
+    # [2019-11-22 20:55:50,437]
+    # python test_train_NN.py env=daisy device=cpu training.traj_end=10 env.state_size=36 training.name_base="model_trained_on_cpu" training.batch_size=64,32,16 training.full_epochs=5000,10000,20000 training.shuffle_data=False,True training.optimizer.params.lr=1e-4,1e-5,1e-6,1e-7 -m
+    # path: "/Users/alonrot/PycharmProjects/mbrlDaisy/mbrl/outputs/2019-11-12/13-19-49/from_cluster_full_model_trained_on_cpu_longer_epochs/" # Works! # alonrot-mbp
+    path: "./outputs/2019-11-12/13-19-49/from_cluster_full_model_trained_on_cpu_longer_epochs/" # Works! # alonrot-mbp
+    model_name: "model_trained_on_cpu_remove_poseTrue_shuffleFalse_lr1.00E-05_batch_size16_full_epochs20000_NNtype_pe_fullmodel"
+
+    # # Full model (debug):
+    # path: "/Users/alonrot/PycharmProjects/mbrlDaisy/mbrl/outputs/2019-11-12/13-19-49/" # Works!
+    # model_name: "model_trained_remove_poseTrue_shuffleTrue_lr1.00E-06_batch_size32_full_epochs5_NNtype_pe_fullmodel"
+
+    folder2model: ""
+    traj_init: 0 # Do not change
+    traj_end: 10 # Do not change
+    # ind_selector: "vel_and_pos"
+    exclude_trajs:
+    remove_unwanted_states: True
+    normalize_data: False
+    base_name2save: "babbling"
+
+  random_no_vel:
+    # Description:
+    # ============
+    # Parameter swipe: random actions, no velocity, 10Hz, 10 episodes, 60 second each [running in cluster]
+    # ----------------------------------------------------------------------------------------------------
+    # [2019-11-18 14:28:26,734] running in cluster!
+    path: "/Users/alonrot/PycharmProjects/mbrlDaisy/mbrl/outputs/2019-10-25/18-47-01/from_cluster/"
+    # model_name: "model_trained_random_actions_no_vel_remove_poseTrue_shuffleTrue_lr1.00E-05_batch_size16_full_epochs1000_NNtype_pe"
+    # model_name: "model_trained_random_actions_no_vel_remove_poseTrue_shuffleTrue_lr1.00E-06_batch_size16_full_epochs1000_NNtype_pe"
+    model_name: "model_trained_random_actions_no_vel_remove_poseTrue_shuffleTrue_lr1.00E-05_batch_size32_full_epochs1000_NNtype_pe"
+
+    folder2model: ""
+    traj_init: 0 # Do not change
+    traj_end: 5 # Do not change
+    # ind_selector: "pos"
+    exclude_trajs:
+    remove_unwanted_states: True
+    normalize_data: False
+
+# model_analysis:
+#   plotting: True
+#   # path: "/Users/alonrot/PycharmProjects/mbrlDaisy/mbrl/outputs/2019-11-12/13-19-49/from_cluster_full_model_trained_on_cpu/model_analysis/"
+#   # model_name: "go2position_singlejoint5_episode_torch"
+#   path: "/Users/alonrot/PycharmProjects/mbrlDaisy/mbrl/outputs/2019-11-12/13-19-49/from_cluster_full_model_trained_on_cpu/model_analysis/go_up_experiments_joint5/"
+#   model_name: "analisysNN_entire_episode_torch_save_xxx.dat" # xxx to be replaced in the code by the corresponding index
+#   device: ${device_global}
+
+
+

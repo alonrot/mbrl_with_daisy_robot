@@ -1,0 +1,17 @@
+seed: 10
+
+vis:
+  step: 0.1
+  x1: -3
+  x2: 3
+  y1: -3
+  y2: 3
+
+cem:
+  popsize: 500
+  num_elites: 50
+  max_iters: 50 # Number of max. iterations of the optimizer
+  mean_alpha: 0.1
+  var_alpha: 0.75
+  epsilon: 0.00001
+  debug: true

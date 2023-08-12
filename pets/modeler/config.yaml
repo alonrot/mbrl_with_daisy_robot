@@ -1,0 +1,55 @@
+seed: 10
+type: p
+dataset_size: 1000
+vis_interval_updates: 100
+batch_size: 32
+x_start: -5
+x_end: 5
+vis_x_points: 100
+epochs: 20
+lr: 0.001
+ensemble_size: 1
+device: cuda
+
+types:
+  D:
+    model:
+      clazz: models.DNN
+      params:
+        input_width: 1
+        output_width: 1
+
+    loss:
+      clazz: torch.nn.modules.loss.MSELoss
+
+  D2:
+    model:
+      clazz: models.DNN
+      params:
+        input_width: 1
+        output_width: 2
+    loss:
+      clazz: torch.nn.modules.loss.MSELoss
+
+  P:
+    model:
+      clazz: models.pnn.CartpolePNN
+      params:
+        input_width: 1
+        output_width: 1
+    loss:
+      clazz: models.loss.NLLLoss
+
+  P2:
+    model:
+      clazz: models.pnn.CartpolePNN
+      params:
+        input_width: 1
+        output_width: 2
+    loss:
+      clazz: models.loss.NLLLoss
+
+optimizer:
+  clazz: torch.optim.Adam
+  params:
+    lr: 1e-4

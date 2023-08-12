@@ -1,0 +1,13 @@
+env:
+  name: MBRLCartpole-v0
+  reward_func: mbrl.environments.cartpole.CartpoleEnv.get_reward_torch
+  state_transformer: mbrl.environments.cartpole.CartpoleEnv.preprocess_state
+  state_size: 4
+  action_size: 1
+
+trial_timesteps: 200
+
+policy:
+    clazz: pets.PETSPolicy
+    params:
+      planning_horizon: 25

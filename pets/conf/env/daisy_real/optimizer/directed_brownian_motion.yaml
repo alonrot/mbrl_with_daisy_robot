@@ -1,0 +1,6 @@
+policy:
+    params:
+      optimizer:
+        params:
+          num_trajectories: 2000 # All
+          use_correlation_matrix: True

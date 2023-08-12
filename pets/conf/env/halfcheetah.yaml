@@ -1,0 +1,21 @@
+env:
+  name: MBRLHalfCheetah-v0
+  reward_func: mbrl.environments.half_cheetah.HalfCheetahEnv.get_reward_torch
+  state_transformer: mbrl.environments.half_cheetah.HalfCheetahEnv.preprocess_state
+  target_transformer: mbrl.environments.half_cheetah.TargetTransformer
+  state_size: 18
+  action_size: 6
+
+num_trials: 300
+trial_timesteps: 1000
+
+policy:
+  clazz: pets.PETSPolicy
+  params:
+    planning_horizon: 30
+
+training:
+  batch_size: 64
+  incremental: true
+  full_epochs: 20
+  incremental_epochs: 10

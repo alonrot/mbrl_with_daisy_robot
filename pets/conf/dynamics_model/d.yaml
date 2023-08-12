@@ -1,0 +1,16 @@
+dynamics_model:
+  clazz: mbrl.dynamics_model.NNBasedDynamicsModel
+  params:
+    jit: true
+    device: ${device}
+    state_size: ${env.state_size}
+    action_size: ${env.action_size}
+    state_transformer: ${env.state_transformer}
+    target_transformer: ${env.target_transformer}
+    model:
+      clazz: ???
+    trainer:
+      clazz: mbrl.models.EnsembleModelTrainer
+      params:
+        loss_cfg:
+          clazz: torch.nn.modules.loss.MSELoss

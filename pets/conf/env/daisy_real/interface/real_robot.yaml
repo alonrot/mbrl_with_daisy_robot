@@ -1,0 +1,56 @@
+env:
+  
+  communication:
+    # HOST: "10.10.1.184" # alonrot mac laptop
+    # HOST: "10.10.1.172" # alonrot robodev (WiFi)
+    HOST: "10.10.1.180" # alonrot robodev (cable)
+    UDP_IP: "10.10.1.2"
+
+    PORT_DES_POSITIONS: 50012
+    PORT_CURR_POSITIONS: 50013
+    PORT_ACK: 50011
+    PORT_FLAG_RESET: 50010
+    PORT_STATUS_ROBOT: 50009
+
+    buff: 512
+
+    freq_action_reset: 100
+    ask_user_input_reset: False
+    time2pos_reset: 4.0 # Time allocated for resetting the robot to its initial position. 
+                        # If the movement is composed of two or more sub-movements, each movement will last for time2pos_reset [sec]
+    time2sleep_after_reset: -1 # Sleep the program right after the reset, in case the robot needs to be manually placed in some initial position (-1 for asking user for input)
+    # reset_type: "legs_extended"
+    # reset_type: "legs_extended_directly"
+    reset_type: "stand_up"
+    # reset_type: "stand_up_directly"
+    device: ${device}
+    debug_modify_action: False
+
+    data2load: conf_plotting.yaml # TODO -> Do we need this?
+
+    zero_offset_observations: True
+
+    freq_acq_stabilization: 10 # [Hz] | Frequency at which we request data from the vision system to compute the stabilization
+    time_stabilization: 1. # [sec] | Time window considered to measure estabilization
+    fac_timeout: 3 # Factor. We'll wait a maximum of time_stabilization*fac_timeout [sec]
+    tol_stabilization: 0.001
+    wait4stabilization: True
+    check_still_standing:
+      use: True
+      base_position_Z_thres: -0.13
+    check_still_not_flipped:
+      use: True
+
+  interface_direct:
+    freq_fbk: 1000 # Hz
+    use_fake_robot_debug: True # Set to True to debug the code without sending any commands to the motors. 
+                               # Observations will get populated with randomly sampled values
+    use_fake_vision_debug: True
+    junk_matrix_vision_length: 50
+    hold_position_process:
+      freq: 200 # Hz
+      name_proc: "daisy_position_holder_listener"
+    # dim_state: ${env.state_size}
+    dim_state: 42
+    time2pos_reset: ${env.communication.time2pos_reset}
+    freq_action_reset: ${env.communication.freq_action_reset}

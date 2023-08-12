@@ -1,0 +1,7 @@
+policy:
+    params:
+      optimizer:
+        params:
+          num_trajectories: 100
+          max_iters: 5 # Maximum nuumber of iterations allowed to the optimizer
+          num_elites: 5

@@ -1,0 +1,7 @@
+policy:
+    params:
+      optimizer:
+        params:
+          num_trajectories: 500
+          max_iters: 5
+          num_elites: 50

@@ -1,0 +1,6 @@
+unset PYTHONPATH
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libGLEW.so.1.13
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/nvidia-418:~/.mujoco/mjpro150/bin
+export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:~/.conda/envs/pets/include/
+export C_INCLUDE_PATH=$C_INCLUDE_PATH:~/.conda/envs/pets/include/
+layout_anaconda pets /opt/anaconda/5.3.1/bin/conda

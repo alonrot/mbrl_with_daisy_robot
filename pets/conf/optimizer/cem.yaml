@@ -1,0 +1,11 @@
+policy:
+    params:
+      optimizer:
+        clazz: mbrl.optimizers.CEMOptimizer
+        params:
+          num_trajectories: ???
+          num_elites: ???
+          max_iters: ???
+          mean_alpha: 0.15
+          var_alpha: 0.15
+          epsilon: 0.001

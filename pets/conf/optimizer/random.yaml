@@ -1,0 +1,6 @@
+policy:
+    params:
+      optimizer:
+        clazz: mbrl.optimizers.RandomShootingOptimizer
+        params:
+          num_trajectories: ???

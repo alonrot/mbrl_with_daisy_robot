@@ -1,0 +1,7 @@
+policy:
+    params:
+      optimizer:
+        params:
+          num_trajectories: 200
+          num_elites: 5 # the more elites, the more trajectories to roll-out, and thus, the longer the objective function (i.e., model roll-out) takes to execute inside the CEM optimizerz
+          max_iters: 5 # Maximum nuumber of iterations allowed to the optimizer

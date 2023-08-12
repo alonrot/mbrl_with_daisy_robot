@@ -1,0 +1,5 @@
+policy:
+    params:
+      optimizer:
+        params:
+          num_trajectories: 2500

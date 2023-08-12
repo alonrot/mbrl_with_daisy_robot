@@ -1,0 +1,28 @@
+func: visualize_sweep #visualize_group
+
+base:
+  port: 9239
+  vis_env: test
+  full_cfg: conf/config.yaml
+  log_cfg: ???
+
+visualize:
+  env: main
+  file: ???
+  sort: true
+  delta: true
+
+visualize_group:
+  env: main
+  logs:
+   - /checkpoint/nol/outputs/2019-08-23/11-57-54
+
+visualize_sweep:
+  env: main
+  dir: /checkpoint/nol/outputs/2019-08-23/11-57-54
+  filer: false
+
+visualize_dynamics:
+  env: main
+  d: ???
+  filer: false

@@ -1,0 +1,13 @@
+random_seed: 10
+partition: priority
+
+env:
+  interface:
+    network:
+      HOST: "localhost"
+      UDP_IP: "localhost"
+
+      time2pos_reset: 0.5
+      time2sleep_after_reset: 0.5
+      wait4stabilization: False
+      reset_type: "stand_up"

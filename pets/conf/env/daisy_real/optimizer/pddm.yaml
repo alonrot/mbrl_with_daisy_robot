@@ -1,0 +1,7 @@
+policy:
+    params:
+      optimizer:
+        params:
+          num_trajectories: 2000
+          use_final_nominal_mean: True 
+          use_correlation_matrix: True

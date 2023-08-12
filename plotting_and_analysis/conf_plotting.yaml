@@ -1,0 +1,179 @@
+defaults:
+  - ./: conf_data2load # Load the data options that are in ./plotting_and_analysis/conf_plotting.yaml
+
+# State vector:
+# [angular positions, pose, angular velocities] -> [18, 6, 18]
+# ind_state_vector_dict: dict(joint_angular_pos=np.arange(0,18),base_position=np.arange(18,18+3),base_orientation=np.arange(18+3,18+3+3),joint_angular_vel=np.arange(18+3+3,18+3+3+18))
+
+# State vector transformed (including sines/cosines)
+# [angular positions, pose, angular velocities] -> [18, 9, 18]
+ind_state_vector_dict: dict(joint_angular_pos=np.arange(0,18),base_position=np.arange(18,18+3),base_orientation=np.arange(18+3,18+3+6),joint_angular_vel=np.arange(18+3+6,18+3+6+18))
+
+# device_global: "cpu"
+device_global: "cuda"
+
+never_block: False
+
+# Set this to false, because it'll be normally set to true for training:
+# data2load.cpg.analyze_model.append_walking_data_for_offline_training.use: False -> Has no effect
+
+# Use the test set for assessing model performance.
+# The model is assumed to be trained with the same split
+testing_dataset_for_comparison: # This requires data2load.cpg.analyze_model.append_walking_data_for_offline_training.use = True
+  use: False
+  random_seed: 1
+  testing:
+    split: 0.9
+  split_first_shuffle_after: # First, split the data set in training and testing data. Shuffle afterwards (optional).
+    # len_training_dataset: 7200
+    len_training_dataset: 0.9
+
+step_init_local: 0
+which_traj: 0
+Nsteps: 800
+
+pose_XY:
+  plotting: False
+  block: False
+  use: "original" # Avoidable field, kept for compatibility with the other plots
+  freq_action_loop: 10 # [Hz]
+  original:
+    fix: False
+    # step_init_local: ${step_init_local}
+    # which_traj: ${which_traj}
+    # Nsteps: ${Nsteps}
+    step_init_local: 0
+    which_traj: 0
+    Nsteps: None
+  # path2save: "/Users/alonrot/presentation/pics/pose_XY.png"
+  path2save:
+
+name_state2visualize: "joint_angular_pos"
+# name_state2visualize: "base_position"
+# name_state2visualize: "base_orientation"
+# name_state2visualize: "joint_angular_vel"
+ind_state_local: 2  # State index, local to the specified name_state2visualize
+# ind_state_local: 0  # State index, local to the specified name_state2visualize
+
+SAS:
+  plotting: False
+  block: False
+  ind_state_vector_dict: ${ind_state_vector_dict}
+  name_state2visualize: ${name_state2visualize}
+  ind_state_local: ${ind_state_local} # State index, local to the specified name_state2visualize
+  freq_action_loop: 10 # [Hz]
+  use: "original" # Avoidable field, kept for compatibility with the other plots
+  # which_state: "all"
+  original:
+    step_init_local: ${step_init_local}
+    which_traj: ${which_traj}
+    Nsteps: ${Nsteps}
+    # step_init_local: 0
+    # which_traj: 3
+    # Nsteps: 600
+
+one_step_predictions_sorted:
+  plotting: False
+  block: False
+  freq_action_loop: 10 # [Hz]
+  use: "original" # Avoidable field, kept for compatibility with the other plots
+  ind_state_vector_dict: ${ind_state_vector_dict}
+  name_state2visualize: ${name_state2visualize}
+  ind_state_local: ${ind_state_local} # State index, local to the specified name_state2visualize
+  original:
+    # step_init_local: ${step_init_local}
+    # which_traj: ${which_traj}
+    # Nsteps: ${Nsteps}
+    step_init_local: ${step_init_local}
+    which_traj: ${which_traj}
+    Nsteps: ${Nsteps}
+
+
+action_sequence_rollout_to_predict_state_sequence:
+  plotting: False
+  block: False
+  sample_next_state: False
+  # use: "linear"
+  # use: "sinewave"
+  use: "original"
+  freq_action_loop: 10 # [Hz]
+  ind_state_vector_dict: ${ind_state_vector_dict}
+  name_state2visualize: ${name_state2visualize}
+  ind_state_local: ${ind_state_local}  # State index, local to the specified name_state2visualize
+
+  linear:
+    action_min: -1.0 # [rad] desired position
+    action_max: +1.0 # [rad] desired position
+    step_init_local: ${step_init_local}
+    which_traj: ${which_traj}
+    Nsteps: ${Nsteps}
+    # step_init_local: 0
+    # which_traj: 3
+    # Nsteps: 600
+
+  sinewave:
+    repeat_wave: 10
+    step_init_local: ${step_init_local}
+    which_traj: ${which_traj}
+    freq_lims:  # [Hz]
+      low:  0.1
+      high: 4
+      sample: false
+      val: 1.0
+    ampl_lims: # [rad]
+      low: 0.0
+      high: +1.0
+      sample: false
+      val: 0.5
+    phase_lims:
+      low: -1.57
+      high: +1.57
+      sample: false
+      val: 0.0
+  
+  original:
+    step_init_local: ${step_init_local}
+    which_traj: ${which_traj}
+    Nsteps: ${Nsteps}
+    # step_init_local: 0
+    # which_traj: 3
+    # Nsteps: 600
+
+pets_online_trajectory_rollout: # planning horizon optimal action sequences
+  plotting: True
+  step_init_local: 0
+  # which_traj: 4 # Works good with: name_state2visualize: "base_position" | ind_state_local: 2 
+  which_traj: 5 # which_episode would be a more appropriate name. This will replace the 'xxx' in the data2load.analyze_model.name_episode
+  Nsteps: 
+  easy_hack_replace_SAS_and_poseXY: False
+  ind_state_vector_dict: ${ind_state_vector_dict}
+  name_state2visualize: ${name_state2visualize}
+  ind_state_local: ${ind_state_local}  # State index, local to the specified name_state2visualize
+
+rewards_evolution:
+  plotting: False
+  base_name: "reward_xxx.rew"
+  auxiliar_episode_name: episode_episode_xxx.epi # Backwards compatibility
+  load_rewards_from_saved_episodes: False # When we forgot to save the rewards at each episode, load the episode data and edtract the reward from it
+  Nsteps_max: 55
+  traj_init: 0
+  traj_end: 60
+  which_type: "cumulative" # Not used
+  exclude:
+  cumulate_reward_every_xxx_episodes: # Not used, i.e., no function coded for this...
+    use: True
+    xxx: 3
+
+predictions_triangular: # For the moment, using the one step ahead predicitions RMSE
+  plotting: False
+  new_dynamics_model_every_steps: 3
+  Nepisodes: 5
+  # ind_state_vector_dict: ${ind_state_vector_dict}
+  # name_state2visualize: ${name_state2visualize}
+  # ind_state_local: ${ind_state_local} # State index, local to the specified name_state2visualize
+  # one_step_predictions_sorted: ${one_step_predictions_sorted}
+  name_model_retrained: "dynamics_model_after_episode_xxx.model"
+  name_episode: "episode_xxx.epi"
+
+
+    

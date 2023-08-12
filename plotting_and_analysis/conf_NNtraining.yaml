@@ -1,0 +1,32 @@
+defaults:
+  - ./../pets/conf/: config                       # Contains mandatory values
+  - ./../pets/conf/dynamics_model/: pe            # Mandatory
+  - ./../pets/conf/env/daisy/dynamics_model/: pe  # Mandatory
+  - ./../pets/conf/hydra/launcher/: mbrl_fairtask
+  - ./../pets/conf/schema/: base
+  - ./../pets/conf/env/: daisy # Load daisy.yaml, located in ./pets/conf/env/daisy.yaml
+  - ./: conf_data2load # Load the data options that are in ./plotting_and_analysis/conf_plotting.yaml
+
+training_loss_evolution:
+  plotting: True
+  block: False
+  save: True
+
+training:
+  # remove_pose: True
+  # traj_init: 0
+  # traj_end: 10
+  # save_model: True
+  save_model_full: True
+  name_base: "fullmodel_trained"
+  folder_name: "cluster_cuda"
+  ask_user_create_folder: False # Set to False when running on the cluster, otherwise it will prompt
+  testing:
+    split: 0.9
+  split_first_shuffle_after:
+    use: True
+    len_training_dataset: ${training.testing.split}
+    # len_training_dataset: 0.9
+    # len_training_dataset: 7200
+
+# random_seed: 2 # Doesn't work
