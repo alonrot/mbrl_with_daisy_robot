@@ -1,10 +1,10 @@
 Introduction
 ============
-This branch of `mbrl` is dedicated to conducting experiments using [PETS](https://arxiv.org/pdf/1805.12114.pdf) on the real robot [Daisy](https://fb.quip.com/acOaAgiGoMWR). It supports additional changes with respect to the main branch, which include
- + Alternative trajectory sampling methods: `PDDM`([paper](https://arxiv.org/pdf/1909.11652.pdf)) and a new idea `Directed Brownian Motion`
+Software infrastructure that deploys model-based reinforcement learning on a real hexapod robot. This repository branches from the [MBRL](https://github.com/facebookresearch/mbrl-lib) repository from Meta AI and deploys [PETS](https://arxiv.org/pdf/1805.12114.pdf) on the real robot [Daisy](https://fb.quip.com/acOaAgiGoMWR). 
 
 ![daisy](pics/daisy_pic.png)
 
+Contributors: Roberto Calandra, Nathan Lambert, Akshara Rai, Omry Yadan
 This project is work in progress.
 
 Project features
@@ -28,7 +28,7 @@ Depending on the "amount of data" we send to Daisy through the network, we may c
     3. Both run on Daisy's on-board computer
 2. **Direct interface**: Both, the Hebi API is called during PETS initialization and thus, they both run as a single main program.
 
-For doing learning experiments, the **Network interface** is more appropriate as we have decoupled Daisy's program from PETS. In this way, if there is a problem with the robot, we can kill the Habi API without having to restart the learning experiments from scratch (i.e., without having to kill PETS). We'd discourage anyone from using the **Direct interface** for doing learning experiments, as both PETS and the Hebi API are running in the same main program. Thus, having a problem in the robot would mean that both, PETS and the interface need to be killed at once. However, the **Direct interface** it's also supported and working, and can be used for testing/debugging purposes, as it doesn't rely on socket communication and thus there's no data being sent between the Hebi API and PETS.
+For doing learning experiments, the **Network interface** is more appropriate as we have decoupled Daisy's program from PETS. In this way, if there is a problem with the robot, we can kill the Hebi API without having to restart the learning experiments from scratch (i.e., without having to kill PETS). We'd discourage anyone from using the **Direct interface** for doing learning experiments, as both PETS and the Hebi API are running in the same main program. Thus, having a problem in the robot would mean that both, PETS and the interface need to be killed at once. However, the **Direct interface** it's also supported and working, and can be used for testing/debugging purposes, as it doesn't rely on socket communication and thus there's no data being sent between the Hebi API and PETS.
 
 In the following, we'll describe how to use the **Network interface** for the case 1.1. The following picture describes in a high level the communication between the machine where PETS is running and Daisy's on-board computer during a single time step. 
 ![env_network](pics/env_network.png)
