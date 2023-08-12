@@ -5,19 +5,14 @@ Software infrastructure that deploys model-based reinforcement learning on a rea
 ![daisy](pics/daisy_pic.png)
 
 Contributors: Roberto Calandra, Nathan Lambert, Akshara Rai, Omry Yadan
+
 This project is work in progress.
 
 Project features
 ----------------
- + Flexible framework for conducting experiments using PETS on the real robot Daisy
- + Reliable and empirically tested interface PETS <-> Daisy
- + Commented code with thorough explanations
-
-
-Installation
-============
-> TODOL Make sure both mbrl and control-daisy are in the same folder
-
+ + Real-time communication interface between the robot and the algorithm. It supports wired and wireless communication.
+ + Hierarchical control loops at high frequencies are enabled using multiprocessing.
+ + Custom communication framework based on TCP/UDP
 
 Infrastructure for interfacing with Daisy
 =========================================
@@ -47,8 +42,6 @@ The cases 1.2 can be achieved with the same interface but changing the network a
 Running the **Network interface** for conducting learning experiments
 =====================================================================
 Running learning experiments involves two major steps: First, bringing up the communication in Daisy's on-board computer. Second, starting PETS, and with it, the learning experiments.
-
-> TODO: Make sure we point to control-daisy for how to start the robot.
 
 Start communication in Daisy's on-board computer
 ------------------------------------------------
