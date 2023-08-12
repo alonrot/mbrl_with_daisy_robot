@@ -10,9 +10,9 @@ This project is work in progress.
 
 Project features
 ----------------
- + Real-time communication interface between the robot and the algorithm. It supports wired and wireless communication.
+ + Real-time communication interface between the robot and PETS with vision in the loop.
  + Hierarchical control loops at high frequencies are enabled using multiprocessing.
- + Custom communication framework based on TCP/UDP
+ + Custom socket communication framework based on TCP/UDP.
 
 Infrastructure for interfacing with Daisy
 =========================================
